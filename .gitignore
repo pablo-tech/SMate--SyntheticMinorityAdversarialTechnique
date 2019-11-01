@@ -1,0 +1,6 @@
+log/
+creation/
+model/
+src/wandb
+src/mnist
+src/__pycache__
