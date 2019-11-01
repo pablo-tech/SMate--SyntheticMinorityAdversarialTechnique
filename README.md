@@ -1,0 +1,1 @@
+# GenerativeAdversarialNetwork-vs-SyntheticMinorityOversamplingTechnique
