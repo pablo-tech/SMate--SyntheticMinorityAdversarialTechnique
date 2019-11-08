@@ -26,6 +26,7 @@ class Sequential_Network(object):
         self.neural_model = self.set_compiled_model(1, 0)
 
     def set_compiled_model(self, learning_fraction, training_step):
+        
         adapted_learning_rate = self.learning_rate * learning_fraction
         wandb.log({'training_step': training_step, self.net_name +'learning_rate': adapted_learning_rate})
 
@@ -50,6 +51,9 @@ class Sequential_Network(object):
         sequence.compile(optimizer=optimizer, 
                          loss=self.loss_function, 
                          metrics=self.learning_metrics)
+
+#         opt = Adam(lr=0.0002, beta_1=0.5)
+#         sequence.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy'])
 
         # model: load
         try:

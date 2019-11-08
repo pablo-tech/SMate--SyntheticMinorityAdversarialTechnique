@@ -1,5 +1,5 @@
 log/
-creation/
+generated/
 model/
 src/wandb
 src/mnist
