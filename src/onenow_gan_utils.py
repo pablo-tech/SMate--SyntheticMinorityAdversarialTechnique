@@ -22,35 +22,72 @@ def create_folder(full_path):
         return
     print("CREATION_SUCCEEDED=%s" % full_path)
 
-    
-def plot_objects(object_rows, object_cols, sample_images, file_name, full_path):
+
+def plot_sub_objects(sample_images, file_name, full_path):
     """
     Plots image containing subplots 
     """
-    sample_size = sample_images.shape[0]
-    plt.figure(figsize=(10,10))
-    for i in range(sample_size):
-        plt.subplot(4, 4, i+1)
-        image = sample_images[i, :, :, :]
-        image = np.reshape(image, [object_rows, object_cols])
+    try:
+        figure_width = 10
+        figure_height = 10
+        plt.figure(figsize=(figure_width, figure_height))
+
+        sample_size = sample_images.shape[0]
+        num_items_subplot_x = 4
+        num_items_subplot_y = 4
+
+        for i in range(sample_size):
+            subplot_index = i+1
+            plt.subplot(num_items_subplot_x, num_items_subplot_y, subplot_index)
+            image = sample_images[i, :, :, :]
+            image = get_reshaped_image(image, image.shape[0], image.shape[1], image.shape[2])
+            plt.imshow(image, cmap='gray')
+            plt.axis('off')
+        plt.savefig(full_path + '/' + file_name)
+        plt.close('all')
+        plt.tight_layout()
+        plt.show()
+    except Exception as e:
+        print(e)    
+        
+def plot_one_object(sample_image, file_name, full_path):
+    """
+    Plots image containing subplots 
+    """
+    try:
+        image = get_reshaped_image(sample_image, sample_image.shape[0], sample_image.shape[1], sample_image.shape[2])
+        # plot
+        figure_width = 10
+        figure_height = 10    
+        plt.figure(figsize=(figure_width, figure_height))
         plt.imshow(image, cmap='gray')
         plt.axis('off')
-    plt.savefig(full_path + '/' + file_name)
-    plt.close('all')
-    # model.save(os.path.join(wandb.run.dir, "mymodel.h5"))
-    plt.tight_layout()
-    plt.show()
+        plt.savefig(full_path + '/' + file_name)
+        plt.close('all')
+        plt.tight_layout()
+        plt.show()
+    except Exception as e:
+        print(e)    
+    
+def get_reshaped_image(sample_object, object_rows, object_cols, object_channels):
+    try:
+        reshaped = np.reshape(sample_object, [object_rows, object_cols, object_channels])
+    except Exception as e:
+        print(e)    
+    return reshaped
     
 
 def setup_file_logger(logger, log_file):
     """
     Initializes formatted logger 
     """
-    hdlr = logging.FileHandler(log_file)
-    formatter = logging.Formatter('%(asctime)s %(message)s') # %(levelname)s 
-    hdlr.setFormatter(formatter)
-    logger.addHandler(hdlr) 
-    logger.setLevel(logging.INFO)
-       
+    try:
+        hdlr = logging.FileHandler(log_file)
+        formatter = logging.Formatter('%(asctime)s %(message)s') # %(levelname)s 
+        hdlr.setFormatter(formatter)
+        logger.addHandler(hdlr) 
+        logger.setLevel(logging.INFO)
+    except Exception as e:
+        print(e)      
     
     

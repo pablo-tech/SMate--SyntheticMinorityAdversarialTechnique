@@ -29,7 +29,7 @@ class GAN_TRAINER(object):
         last_kpi_percent_momentum = 1         
         i = 1
         
-        while True:                       
+        while True:            
             # train
             x_true_objects = self.get_true_objects(batch_size)
             discriminator_metrics = self.train_discriminator(x_true_objects, batch_size, G_input_n)
@@ -40,13 +40,16 @@ class GAN_TRAINER(object):
             # log
             self.print_log(i, generator_metrics, discriminator_metrics, kpi_percent_momentum)    
             self.plot_step_objects(i, G_input_n)
-            # adaptation and convergence 
-            self.adapt_learning(i, kpi_percent_momentum)
-            self.check_convergence(i, kpi_percent_momentum)
+#             # adaptation and convergence 
+#             self.adapt_learning(i, kpi_percent_momentum)
+#             self.check_convergence(i, kpi_percent_momentum)
             # housekeeping
             last_kpi_value = kpi_value
             last_kpi_percent_momentum = kpi_percent_momentum
             i += 1
+            if i%10==0:
+                print("i=", i)
+
     
     """
     training methods
@@ -111,7 +114,9 @@ class GAN_TRAINER(object):
         return z_noise, G_of_z_fake_objects
 
     def draw_G_random_input_noise(self, num_samples, G_input_n):
-        return np.random.uniform(-1.0, 1.0, size=[num_samples, G_input_n])
+        random_noise = np.random.uniform(-1.0, 1.0, size=[num_samples, G_input_n])
+        # print("random_noise=", random_noise)
+        return random_noise
 
      
     """
@@ -138,26 +143,25 @@ class GAN_TRAINER(object):
             self.plot_step_real_objects(step_count, G_input_n, batch_size)
 
     def plot_step_fake_objects(self, step_count, G_input_n, batch_size):
+        # object
         _, objects = self.get_fake_objects(batch_size, G_input_n)
-        # latest
-        latest_filename = self.net_config['project_name'] + self.net_config['project_tag'] + "_latest=fake.png"
-        num_rows = self.x_train[0].shape[0]
-        num_cols = self.x_train[0].shape[1]
-        outil.plot_objects(num_rows, num_cols, \
-                          objects, latest_filename, self.net_config['creation_root'])      
-        # all
+        # latest single
+        latest_filename = self.net_config['project_name'] + self.net_config['project_tag'] + "_latest=fake-single.png"
+        outil.plot_one_object(objects[0], latest_filename, self.net_config['creation_root'])      
+        # latest grid
+        latest_filename = self.net_config['project_name'] + self.net_config['project_tag'] + "_latest=fake-grid.png"
+        outil.plot_sub_objects(objects, latest_filename, self.net_config['creation_root'])      
+        # all grids
         full_filename = self.net_config['project_name'] + self.net_config['project_tag'] + \
                    "_%s.png" % str(format(int(step_count), '07d'))
-        outil.plot_objects(num_rows, num_cols, \
-                          objects, full_filename, self.net_config['creation_full_path'])      
+        outil.plot_sub_objects(objects, full_filename, self.net_config['creation_full_path'])      
             
     def plot_step_real_objects(self, step_count, G_input_n, batch_size):
         objects = self.get_true_objects(batch_size)
-        latest_filename = self.net_config['project_name'] + self.net_config['project_tag'] + "_latest=real.png"
+        latest_filename = self.net_config['project_name'] + self.net_config['project_tag'] + "_latest=real-grid.png"
         num_rows = self.x_train[0].shape[0]
         num_cols = self.x_train[0].shape[1]
-        outil.plot_objects(num_rows, num_cols, \
-                  objects, latest_filename, self.net_config['creation_root'])      
+        outil.plot_sub_objects(objects, latest_filename, self.net_config['creation_root'])      
 
 
     """
