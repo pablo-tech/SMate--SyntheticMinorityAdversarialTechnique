@@ -1,9 +1,13 @@
 # TranBoost: Generative Image Classification
 
-## Abstract
+### Team
+- Pablo Rodriguez Bertorello, Computer Science, Stanford University
+- Liang Ping Koh, Statistics, Stanford University
+
+### Abstract
 In important prediction scenarios, data-sets are naturally imbalanced, for example in cancer detection: a small minority of people may exhibit the disease. This poses a significant classification challenge to machine learning algorithms. Data imbalance can cause lower performance for the class of interest, e.g. classifying with high precision that the person has cancer. When training data is abundant, a possible approach is to down-sample the majority class, thus restoring balance.  A prevalent approach is weighting, accelerating learning for minority class training examples, however the weighting objective must be carefully considered. Synthesis is a major alternative, producing examples of the minority class, adding them to the training set to overcome the class imbalance. The Synthetic Minority Over-sampling Technique, SMOTE is widely applied, but it was not developed for image data. Rather, this paper applies Generative Adversarial Networks, which generate image examples drawn from the minority class distribution. The novel TranBoost approach is proposed, combining a GAN image generator with an ensemble of image classifiers. The generator takes advantage of Transfer Learning, leveraging knowledge about majority classes to learn how to best generate minority examples. Thus, TranBoost outperforms SMOTE and Adaptive Synthesis for image classification in imbalanced data-sets.
 
-## Library
+### Library
 A library is published, composed of several classes implemented for plug-and-play experimentation with different GAN architectures:
 - Main: searches for hyper-parameters including GAN architecture, optimizer, learning rate, batch size.  For experiment reproduce-ability, it sets random seeds 
 - Data: pre-configured data-sets include CIFAR10 and MNIST. It includes methods to selects the classes of interest from a given dataset, performing data normalization and augmentation
