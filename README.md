@@ -11,7 +11,7 @@ In important prediction scenarios, data-sets are naturally imbalanced, for examp
 For details see the project report ....
 ![picture](img/gan-loss.png)
 
-### Library
+### Code
 A library is published, composed of several classes implemented for plug-and-play experimentation with different GAN architectures:
 - Main: searches for hyper-parameters including GAN architecture, optimizer, learning rate, batch size.  For experiment reproduce-ability, it sets random seeds 
 - Data: pre-configured data-sets include CIFAR10 and MNIST. It includes methods to selects the classes of interest from a given dataset, performing data normalization and augmentation
@@ -24,4 +24,20 @@ A library is published, composed of several classes implemented for plug-and-pla
 - Optimizer: is a factory that includes Adam and RMSProp, where few lines of code are required to add addititional optimizers 
 - Configuration: folders used for models, logs, images generated, data-sets, sampled data-sets. Also training settings like number of steps, thresholds for adaptation and termination
 - Util: useful methods for folder creation, plotting single and grids of images, logging 
+
+
+### How To: GAN
+
+To train a GAN to generate minority class examples use:
+```
+onenow_gan_main_generator_train.ipynb
+
+```
+
+Other key classes:
+- onenow_gan_factory_adversarial.py abstracts a General Adversarial Network
+- onenow_gan_factory_sequential.py abstracts a Generator of Discriminator within a GAN
+- onenow_gan_factory_optimizer.py is a factory of optimizers
+
+The library plug-and-plays with different GAN architectures, under /src/architecture
 
