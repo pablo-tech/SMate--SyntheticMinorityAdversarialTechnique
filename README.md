@@ -20,3 +20,7 @@ A library is published, composed of several classes implemented for plug-and-pla
 - Optimizer: is a factory that includes Adam and RMSProp, where few lines of code are required to add addititional optimizers 
 - Configuration: folders used for models, logs, images generated, data-sets, sampled data-sets. Also training settings like number of steps, thresholds for adaptation and termination
 - Util: useful methods for folder creation, plotting single and grids of images, logging 
+
+### Report
+For details see the project report ....
+![picture](img/gan-loss.png)
