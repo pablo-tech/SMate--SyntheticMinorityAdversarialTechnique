@@ -18,7 +18,7 @@ class Optimization_Algorithm(object):
     
     # https://github.com/keras-team/keras/blob/master/keras/optimizers.py#L229
     def get_adam(self, learning_rate):
-        return Adam(lr=learning_rate)
+        return Adam(lr=learning_rate, beta_1=0.5)
 
     def get_rms(self, learning_rate):
         # previous: decay=6e-8

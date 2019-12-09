@@ -30,20 +30,21 @@ class GAN_TRAINER(object):
         i = 1
         
         while True:            
-            # train
+            ## train
             x_true_objects = self.get_true_objects(batch_size)
             discriminator_metrics = self.train_discriminator(x_true_objects, batch_size, G_input_n)
             generator_metrics = self.train_generator(batch_size, G_input_n)
-            # metrics
+            ## metrics
             kpi_value = self.get_kpi_value(generator_metrics, discriminator_metrics)
             kpi_percent_momentum = self.get_kpi_momentum(kpi_value, last_kpi_value, last_kpi_percent_momentum)
-            # log
+            ## log
             self.print_log(i, generator_metrics, discriminator_metrics, kpi_percent_momentum)    
             self.plot_step_objects(i, G_input_n)
-#             # adaptation and convergence 
-#             self.adapt_learning(i, kpi_percent_momentum)
-#             self.check_convergence(i, kpi_percent_momentum)
-            # housekeeping
+            ## adaptation and convergence 
+            kpi_percent_momentum = 1 # temporary
+            self.adapt_learning(i, kpi_percent_momentum)
+            # self.check_convergence(i, kpi_percent_momentum)
+            ## housekeeping
             last_kpi_value = kpi_value
             last_kpi_percent_momentum = kpi_percent_momentum
             i += 1
@@ -131,45 +132,55 @@ class GAN_TRAINER(object):
             wandb.log({'training_step': step_count, 'discriminator_loss': discriminator_loss})
             wandb.log({'training_step': step_count, 'fake+real_catch_accuracy': discriminator_accuracy})
             wandb.log({'training_step': step_count, 'generator_loss': generator_loss})
-            wandb.log({'training_step': step_count, 'fake_catch_accuracy': generator_accuracy})
+            wandb.log({'training_step': step_count, 'fake_success_accuracy': generator_accuracy})
             wandb.log({'training_step': step_count, 'kpi_percent_momentum': kpi_percent_momentum})
             self.logger.info("GENERATOR_%d: loss=%f, accuracy=%f" % (step_count, generator_loss, generator_accuracy))
             self.logger.info("DISCRIMINATOR_%d loss=%f, accuracy=%f" % (step_count, discriminator_loss, discriminator_accuracy))
 
     def plot_step_objects(self, step_count, G_input_n):
         if self.is_check_point(step_count): 
-            batch_size = 16 # subplot 4x4
-            self.plot_step_fake_objects(step_count, G_input_n, batch_size)
+            batch_size = 25 # rectangular subplot 
             self.plot_step_real_objects(step_count, G_input_n, batch_size)
+            self.plot_step_fake_objects(step_count, G_input_n, batch_size)
 
     def plot_step_fake_objects(self, step_count, G_input_n, batch_size):
-        # object
+        ## object
         _, objects = self.get_fake_objects(batch_size, G_input_n)
-        # latest single
+        ## denormalize
+        objects = self.de_normalize(objects)
+        ## latest single
         latest_filename = self.net_config['project_name'] + self.net_config['project_tag'] + "_latest=fake-single.png"
         outil.plot_one_object(objects[0], latest_filename, self.net_config['creation_root'])      
-        # latest grid
+        ## latest grid
         latest_filename = self.net_config['project_name'] + self.net_config['project_tag'] + "_latest=fake-grid.png"
         outil.plot_sub_objects(objects, latest_filename, self.net_config['creation_root'])      
-        # all grids
+        ## all grids
         full_filename = self.net_config['project_name'] + self.net_config['project_tag'] + \
                    "_%s.png" % str(format(int(step_count), '07d'))
         outil.plot_sub_objects(objects, full_filename, self.net_config['creation_full_path'])      
             
     def plot_step_real_objects(self, step_count, G_input_n, batch_size):
+        ## object
         objects = self.get_true_objects(batch_size)
+        ## denormalize
+        objects = self.de_normalize(objects)
+        ## grid
         latest_filename = self.net_config['project_name'] + self.net_config['project_tag'] + "_latest=real-grid.png"
         num_rows = self.x_train[0].shape[0]
         num_cols = self.x_train[0].shape[1]
         outil.plot_sub_objects(objects, latest_filename, self.net_config['creation_root'])      
 
+    # rescale the values from [-1,1] to [0,1]    
+    def de_normalize(self, objects):
+        return (objects + 1.0) / 2.0
 
     """
     milestone/convergence methods
     """    
     def is_check_point(self, step_count):
-        return step_count < self.net_config['train_step_milestone'] or  \
-               step_count % self.net_config['train_step_milestone']==0
+        return step_count % self.net_config['train_step_milestone']==0  
+               # or step_count < self.net_config['train_step_milestone'] or  \
+               
     
     def check_convergence(self, i, kpi_percent_momentum):
         is_last_iteration = (i == self.net_config['train_max_steps'])
@@ -190,4 +201,3 @@ class GAN_TRAINER(object):
            
     def save_objects(self):
         wandb.save(self.net_config['creation_full_path'] + '/*')
-

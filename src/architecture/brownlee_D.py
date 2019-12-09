@@ -19,10 +19,6 @@ class DifferetiableNetwork(object):
         
     def get_new_config(self):    
         config = {}
-#         config['filter_size'] = 5
-#         config['dropout'] = 0.4 # avoid generated images looking like noise
-#         config['alpha'] = 0.2
-#         config['depth'] = 64
         return config
               
     def get_new_model(self):
@@ -44,54 +40,9 @@ class DifferetiableNetwork(object):
         sequence.add(LeakyReLU(alpha=0.2))
         # classifier
         sequence.add(Flatten())
-        sequence.add(Dropout(0.4))
+        sequence.add(Dropout(rate=0.4))
         sequence.add(Dense(1, activation='sigmoid'))
 
-    
-    
-#         sequence = Sequential()
-        
-#         # input: fully connected
-#         sequence.add(Conv2D(filters = self.net_config['depth'],   # of filters
-#                             kernel_size = self.net_config['filter_size'], 
-#                             strides = 2, 
-#                             padding = 'same', 
-#                             kernel_initializer = glorot_uniform(seed=0),
-#                             input_shape = self.net_config['creation_shape']))
-#         sequence.add(LeakyReLU(alpha=self.net_config['alpha']))
-#         sequence.add(Dropout(self.net_config['dropout']))
-
-#         # hidden: convolutional
-#         sequence.add(Conv2D(filters = self.net_config['depth'] * 2, 
-#                             kernel_size = self.net_config['filter_size'], 
-#                             strides = 2, 
-#                             padding = 'same'),
-#                             kernel_initializer = glorot_uniform(seed=0))
-#         sequence.add(LeakyReLU(alpha=self.net_config['alpha']))
-#         sequence.add(Dropout(self.net_config['dropout']))
-
-#         # hidden: convolutional
-#         sequence.add(Conv2D(filters = self.net_config['depth'] * 4, 
-#                             kernel_size = self.net_config['filter_size'], 
-#                             strides = 2, 
-#                             padding = 'same'),
-#                             kernel_initializer = glorot_uniform(seed=0))
-#         sequence.add(LeakyReLU(alpha=self.net_config['alpha']))
-#         sequence.add(Dropout(self.net_config['dropout']))
-        
-#         # hidden: convolutional
-#         sequence.add(Conv2D(filters = self.net_config['depth'] * 8, 
-#                             kernel_size = self.net_config['filter_size'], 
-#                             strides = 1, 
-#                             padding = 'same'),
-#                             kernel_initializer = glorot_uniform(seed=0))
-#         sequence.add(LeakyReLU(alpha=self.net_config['alpha']))
-#         sequence.add(Dropout(self.net_config['dropout']))
-        
-#         # output
-#         sequence.add(Flatten())
-#         sequence.add(Dense(1))
-#         sequence.add(Activation('sigmoid'))
         
         return sequence
                   

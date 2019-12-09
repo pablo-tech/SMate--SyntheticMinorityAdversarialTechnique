@@ -11,10 +11,13 @@ def create_folder(full_path):
     """
     Create folder in path
     """
-    try:
-        shutil.rmtree(full_path) 
-    except Exception:
-        print("DELETION_FAILED=%s" % full_path)
+    ## first delete it
+    # try:
+    #    shutil.rmtree(full_path) 
+    # except Exception:
+    #    print("DELETION_FAILED=%s" % full_path)
+        
+    ## now create it
     try:
         os.mkdir(full_path)
     except OSError:
@@ -28,19 +31,18 @@ def plot_sub_objects(sample_images, file_name, full_path):
     Plots image containing subplots 
     """
     try:
-        figure_width = 10
-        figure_height = 10
+        figure_width = 12
+        figure_height = 12
         plt.figure(figsize=(figure_width, figure_height))
 
         sample_size = sample_images.shape[0]
-        num_items_subplot_x = 4
-        num_items_subplot_y = 4
+        num_items_subplot_x = 5
+        num_items_subplot_y = 5
 
         for i in range(sample_size):
             subplot_index = i+1
             plt.subplot(num_items_subplot_x, num_items_subplot_y, subplot_index)
             image = sample_images[i, :, :, :]
-            image = get_reshaped_image(image, image.shape[0], image.shape[1], image.shape[2])
             plt.imshow(image, cmap='gray')
             plt.axis('off')
         plt.savefig(full_path + '/' + file_name)
@@ -50,15 +52,14 @@ def plot_sub_objects(sample_images, file_name, full_path):
     except Exception as e:
         print(e)    
         
-def plot_one_object(sample_image, file_name, full_path):
+def plot_one_object(image, file_name, full_path):
     """
     Plots image containing subplots 
     """
     try:
-        image = get_reshaped_image(sample_image, sample_image.shape[0], sample_image.shape[1], sample_image.shape[2])
         # plot
-        figure_width = 10
-        figure_height = 10    
+        figure_width = 12
+        figure_height = 12    
         plt.figure(figsize=(figure_width, figure_height))
         plt.imshow(image, cmap='gray')
         plt.axis('off')
@@ -70,6 +71,9 @@ def plot_one_object(sample_image, file_name, full_path):
         print(e)    
     
 def get_reshaped_image(sample_object, object_rows, object_cols, object_channels):
+    """
+    Numpy reshape image per desired rows, columns, and channels
+    """
     try:
         reshaped = np.reshape(sample_object, [object_rows, object_cols, object_channels])
     except Exception as e:

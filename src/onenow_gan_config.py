@@ -13,20 +13,21 @@ class SystemConfig(object):
 
         sys_config = {}
 
-        # general
+        ## general
         sys_config['project_name'] = project_name
         
-        # path
-        sys_config['root_folder'] = '../'
+        ## path
+        sys_config['root_folder'] = '/home/ec2-user/SageMaker/efs/' 
+        # sys_config['root_folder'] = '/home/ec2-user/SageMaker/Rosenblatt-AI/CS230/' 
         sys_config['log_root'] = sys_config['root_folder'] + 'log/'
         sys_config['creation_root'] =  sys_config['root_folder'] + 'creation/'        
         sys_config['model_root'] =  sys_config['root_folder'] + 'model/'                 
 
-        # train
-        sys_config['train_max_steps'] = 1*10**3
+        ## train
+        sys_config['train_max_steps'] = 10*10**3
         sys_config['train_adaptation_threshold'] = 100
-        sys_config['train_step_milestone'] = 10 # step count
-        sys_config['train_convergence_threshold'] = 15*10**(-2) # key metric oscillating at %
+        sys_config['train_step_milestone'] = 100 # step count
+        sys_config['train_convergence_threshold'] = 5*10**(-2) # key metric oscillating at %
         
         return sys_config
     
