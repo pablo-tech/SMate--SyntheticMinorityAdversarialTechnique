@@ -31,7 +31,6 @@ A library is published, composed of several classes implemented for plug-and-pla
 To train a GAN to generate minority class examples use:
 ```
 onenow_gan_main_generator_train.ipynb
-
 ```
 
 Also ket:
