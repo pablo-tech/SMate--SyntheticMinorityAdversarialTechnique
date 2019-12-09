@@ -7,9 +7,9 @@
 ### Abstract
 In important prediction scenarios, data-sets are naturally imbalanced, for instance in cancer detection: a small minority of people may exhibit the disease. This poses a significant classification challenge to machine learning algorithms. Data imbalance can cause lower performance for the class of interest, e.g. classifying with high precision that the person has cancer. When training data is abundant, a possible approach is to down-sample the majority class, thus restoring balance.  Another prevalent approach is weighting, accelerating learning for minority class training examples. Synthesis is a major alternative, producing examples of the minority class, adding them to the training set to overcome the class imbalance. The Synthetic Minority Over-sampling Technique, SMOTE is widely applied, but it was not developed for image data. Rather, this research applies Generative Adversarial Networks, which generate image examples drawn from the minority class distribution. The novel SMate approach leverages GAN minority-class image generators, which benefit from Transfer Learning from majority-class image generators. Consequently, SMate outperforms SMOTE for imbalanced image data-sets.
 
-### Report
-For details see the project report ....
-![picture](img/gan-loss.png)
+### Poster
+![picture](img/poster.png)
+
 
 ### Code
 A library is published, composed of several classes implemented for plug-and-play experimentation with different GAN architectures:
