@@ -26,20 +26,20 @@ A library is published, composed of several classes implemented for plug-and-pla
 - Util: useful methods for folder creation, plotting single and grids of images, logging 
 
 
-### How To: GAN
+### How To: 
 
-To train a GAN to generate minority class examples use:
+To train a GAN to generate minority class examples use, start with:
 ```
 onenow_gan_main_generator_train.ipynb
 ```
 
-Also ket:
+The performance of the GAN as well as prior-art methods is evaluated here:
 ```
 Classifier.ipynb
 ```
 
 
-Other classes:
+Key helper classes:
 ```
 - onenow_gan_factory_adversarial.py abstracts a General Adversarial Network
 - onenow_gan_factory_sequential.py abstracts a Generator of Discriminator within a GAN
